@@ -7,6 +7,7 @@ $password = 'DD102';
 
 session_start();
 
+
 try {
     $pdo = new PDO("mysql:host=$host;port=3307;dbname=$dbname", $user, $password);
     $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
@@ -22,7 +23,18 @@ try {
         if ($user && isset($user['motDePasse'])) {
             $_SESSION['user_id'] = $user['id'];
             $_SESSION['user_name'] = $user['nom'];
-            header("Location: Etudiant.php") ;            
+            $_SESSION['user_role'] = $user['role']; // Assuming 'role' column exists
+
+            // Redirect based on role
+            if ($user['role'] === 'Administrateur') {
+                header("Location: Administrateur.php");
+            } elseif ($user['role'] === 'Enseignant') {
+                header("Location: teacher.php");
+            } elseif ($user['role'] === 'Etudiant') {
+                header("Location: Etudiant.php");
+            } else {
+                $error = "Rôle utilisateur inconnu.";
+            }
 
             exit();
         } else {

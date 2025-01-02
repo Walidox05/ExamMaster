@@ -1,12 +1,6 @@
 <?php
 session_start();
 
-// Check if user is logged in and is an admin
-if (!isset($_SESSION['user_id']) || $_SESSION['role'] !== 'Administrateur') {
-    header("Location: SignUp.php");  // Redirect to login page if not logged in or not an admin
-    exit();
-}
-
 // Database connection
 $host = 'localhost';
 $dbname = 'exammaster';
